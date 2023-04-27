@@ -1,7 +1,7 @@
 package chess;
 
 import boardgame.Board;
-import boardgame.Position;
+import boardgame.Piece;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -27,10 +27,15 @@ public class ChessMatch {
         return mat;
     }
 
+    /*Posiciona uma nova peça a partir de uma posição de xadrez (a1...h8)*/
+    private void placeNewPiece(char column, int row, Piece piece){
+        this.board.placePiece(piece, new ChessPosition(column, row).toPosition());
+    }
+
     //Inicia a partida de xadrez, colocando as peças no tabuleiro.
     private void initialSetup(){
-        this.board.placePiece(new Rook(this.board, Color.WHITE), new Position(2, 1));
-        this.board.placePiece(new King(this.board, Color.BLACK), new Position(0,  4));
-        this.board.placePiece(new King(this.board, Color.WHITE), new Position(7, 4));
+        this.placeNewPiece('b', 6, new Rook(this.board, Color.WHITE));
+        this.placeNewPiece('e', 8, new King(this.board, Color.BLACK));
+        this.placeNewPiece('e', 1, new King(this.board, Color.WHITE));
     }
 }
