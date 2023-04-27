@@ -35,4 +35,11 @@ public class Board {
     public Piece piece(Position position){
         return this.pieces[position.getRow()][position.getColumn()];
     }
+
+    /*Coloca uma peça em uma posição na matriz de peças do tabuleiro.
+    Também insere um objeto Position na peça, o qual indica sua posição.*/
+    public void placePiece(Piece piece, Position position){
+        this.pieces[position.getRow()][position.getColumn()] = piece;
+        piece.position = position;
+    }
 }
