@@ -15,7 +15,6 @@ public class ChessMatch {
         this.initialSetup();
     }
 
-    //Retorna uma matriz de peças de xadrez a partir da matriz de peças do tabuleiro.
     public ChessPiece[][] getPieces(){
         ChessPiece[][] mat = new ChessPiece[this.board.getRows()][this.board.getColumns()];
 

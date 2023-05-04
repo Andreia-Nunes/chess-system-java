@@ -23,7 +23,6 @@ public class Board {
         return columns;
     }
 
-    /*Retorna uma peça dada uma linha e uma coluna*/
     public Piece piece(int row, int column){
         if(!this.positionExists(row, column)){
             throw new BoardException("Position not on the board");
@@ -31,7 +30,6 @@ public class Board {
         return this.pieces[row][column];
     }
 
-    /*Retorna uma peça dada uma posição*/
     public Piece piece(Position position){
         if(!this.positionExists(position)){
             throw new BoardException("Position not on the board");
@@ -39,8 +37,6 @@ public class Board {
         return this.pieces[position.getRow()][position.getColumn()];
     }
 
-    /*Coloca uma peça em uma posição na matriz de peças do tabuleiro.
-    Também insere um objeto Position na peça, o qual indica sua posição.*/
     public void placePiece(Piece piece, Position position){
         if(this.thereIsAPiece(position)){
             throw new BoardException("There is already a piece on position " + position);
@@ -49,7 +45,6 @@ public class Board {
         piece.position = position;
     }
 
-    /*Remove uma peça do tabuleiro*/
     public Piece removePiece(Position position){
         if(!this.positionExists(position)){
             throw new BoardException("Position not on the board");
@@ -65,18 +60,14 @@ public class Board {
         return aux;
     }
 
-
-    /*Testa se uma posição existe no tabuleiro dada uma linha e uma coluna*/
     private boolean positionExists(int row, int column){
         return row >= 0 && row < this.rows && column >= 0 && column < this.columns;
     }
 
-    /*Testa se uma posição existe no tabuleiro dado um objeto Position*/
     public boolean positionExists(Position position){
         return this.positionExists(position.getRow(), position.getColumn());
     }
 
-    /*Testa se existe uma peça em uma dada posição*/
     public boolean thereIsAPiece(Position position){
         if(!this.positionExists(position)){
             throw new BoardException("Position not on the board");
