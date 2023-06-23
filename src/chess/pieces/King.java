@@ -2,12 +2,17 @@ package chess.pieces;
 
 import boardgame.Board;
 import boardgame.Position;
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.Color;
 
 public class King extends ChessPiece {
-    public King(Board board, Color color) {
+
+    private ChessMatch chessMatch;
+
+    public King(Board board, Color color, ChessMatch chessMatch) {
         super(board, color);
+        this.chessMatch = chessMatch;
     }
 
     @Override
@@ -18,6 +23,11 @@ public class King extends ChessPiece {
     public boolean canMove(Position position){
         ChessPiece p = (ChessPiece) this.getBoard().piece(position);
         return p == null || p.getColor() != this.getColor();
+    }
+
+    private boolean testRookCastling(Position position){
+        ChessPiece p = (ChessPiece) this.getBoard().piece(position);
+        return p != null && p instanceof Rook && p.getColor() == this.getColor() && p.getMoveCount() == 0;
     }
 
     @Override
@@ -73,6 +83,33 @@ public class King extends ChessPiece {
         if( this.getBoard().positionExists(p) && this.canMove(p)){
             mat[p.getRow()][p.getColumn()] = true;
         }
+
+        // #specialmove castling
+        if(this.getMoveCount() == 0 && !this.chessMatch.getCheck()){
+            // #specialmove castling kingside rook
+            Position pT1 = new Position(this.position.getRow(), this.position.getColumn() + 3);
+            if(this.testRookCastling(pT1)){
+                Position p1 = new Position(this.position.getRow(), this.position.getColumn() + 1);
+                Position p2 = new Position(this.position.getRow(), this.position.getColumn() + 2);
+
+                if(this.getBoard().piece(p1) == null && this.getBoard().piece(p2) == null){
+                    mat[this.position.getRow()][this.position.getColumn() + 2] = true;
+                }
+            }
+
+            // #specialmove castling queenside rook
+            Position pT2 = new Position(this.position.getRow(), this.position.getColumn() - 4);
+            if(this.testRookCastling(pT2)){
+                Position p1 = new Position(this.position.getRow(), this.position.getColumn() - 1);
+                Position p2 = new Position(this.position.getRow(), this.position.getColumn() - 2);
+                Position p3 = new Position(this.position.getRow(), this.position.getColumn() - 3);
+
+                if(this.getBoard().piece(p1) == null && this.getBoard().piece(p2) == null && this.getBoard().piece(p3) == null){
+                    mat[this.position.getRow()][this.position.getColumn() - 2] = true;
+                }
+            }
+        }
+
 
         return mat;
     }
